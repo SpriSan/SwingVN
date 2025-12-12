@@ -21,9 +21,15 @@ public abstract class ScriptManager {
 
     }
 
+    protected Image background(String name) {
+        Image img = new Image(name);
+        Engine.getInstance().registerImage(img, true); // true = background
+        return img;
+    }
+
     protected Image image(String name) {
         Image img = new Image(name);
-        Engine.getInstance().registerImage(img);
+        Engine.getInstance().registerImage(img, false); // false = foreground
         return img;
     }
 

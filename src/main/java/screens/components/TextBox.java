@@ -15,7 +15,7 @@ public class TextBox extends JPanel {
         this.size = size;
         this.x = x;
         this.y = y;
-        setLayout(null); 
+        setLayout(null);
     }
 
 
@@ -32,14 +32,22 @@ public class TextBox extends JPanel {
     }
 
     public void updateLine(String text, Chara charName) {
-        Text line = new Text(text, 30, Color.black); 
-        line.setBounds(x, y, 500, 50);
+        removeAll();
 
         Text character = new Text(charName.name, 30, charName.color);
         character.setBounds(x, y - 30, 500, 50);
-
-        add(line);
         add(character);
+
+        JTextArea textArea = new JTextArea(text);
+        textArea.setBounds(x, y, 1000, 200);
+        textArea.setFont(new Font("Arial", Font.PLAIN, 30));
+        textArea.setForeground(Color.black);
+        textArea.setBackground(new Color(0, 0, 0, 0)); // Transparent
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        add(textArea);
 
         revalidate();
         repaint();

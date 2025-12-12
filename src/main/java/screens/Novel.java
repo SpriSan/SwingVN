@@ -23,25 +23,26 @@ public class Novel extends JPanel {
         setLayout(null);
 
         textBox = new TextBox(100, 100, 100);
-        textBox.setBounds(50, 50, 500, 300); 
+        textBox.setBounds(350, 700, 1200, 300);
         add(textBox);
         
 
     }
 
     public void refreshImages() {
-        
+
         for (screens.components.Image img : Engine.getInstance().images) {
             remove(img);
         }
-        
-        for (screens.components.Image img : Engine.getInstance().images) {
+
+        for (int i = Engine.getInstance().images.size() - 1; i >= 0; i--) {
+            screens.components.Image img = Engine.getInstance().images.get(i);
             img.setBounds(img.x, img.y, img.getPreferredSize().width, img.getPreferredSize().height);
             add(img);
         }
-        
+
         setComponentZOrder(textBox, 0);
-        
+
         revalidate();
         repaint();
     }

@@ -25,8 +25,12 @@ public class Engine {
     public List<Image> images = new ArrayList<>();
     public Novel novel;
 
-    public void registerImage(Image img) {
-        images.add(img);
+    public void registerImage(Image img, boolean isBackground) {
+        if (isBackground) {
+            images.add(0, img); // Ajouter au début de la liste (arrière-plan)
+        } else {
+            images.add(img); // Ajouter à la fin (premier plan)
+        }
     }
 
     public void displayDialogue(Chara character, String text) {
