@@ -3,13 +3,13 @@ package screens.components;
 import javax.swing.*;
 import java.awt.*;
 
-public class TextComponent extends JPanel {
+public class Text extends JPanel {
 
     public String text;
     public int size;
     public int x , y;
 
-    public TextComponent(String text, int size,  int x, int y) {
+    public Text(String text, int size,  int x, int y) {
         this.text = text;
         this.size = size;
         this.x = x;

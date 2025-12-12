@@ -11,9 +11,7 @@ public class Script extends ScriptManager {
         Image arriereplan = image("nom");
         Chara Personnage = character("Perso", Color.BLUE);
 
-
-
-
+        speak(Personnage, "Test");
 
     }
 

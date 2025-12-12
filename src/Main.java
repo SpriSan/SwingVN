@@ -1,22 +1,29 @@
 import screens.MainMenu;
+import screens.Novel;
 
 import javax.swing.*;
+
+import core.Engine;
+
 import java.awt.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    static int HEIGHT = 800;
-    static int WIDTH = 1500;
+    static int HEIGHT = 1080;
+    static int WIDTH = 1920;
 
     public static void main(String[] args) {
+
+        Script script;
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.setResizable(true);
         frame.setVisible(true);
-        frame.add(new MainMenu());
+        Novel novelPanel = new Novel();
+        frame.add(novelPanel);
+        Engine.getInstance().novel = novelPanel;
+        Engine.getInstance().play(new Script());
     }
 }

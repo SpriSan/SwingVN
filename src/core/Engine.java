@@ -1,6 +1,7 @@
 package core;
 
 import managers.ScriptManager;
+import screens.Novel;
 import screens.components.Image;
 
 import java.awt.*;
@@ -21,13 +22,14 @@ public class Engine {
     }
 
     private List<Image> images = new ArrayList<>();
+    public Novel novel;
 
     public void registerImage(Image img) {
         images.add(img);
     }
 
     public void displayDialogue(ScriptManager.Chara character, String text) {
-
+        novel.speak(text);
     }
 
     public void showImage(Image img) {
