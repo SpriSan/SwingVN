@@ -1,3 +1,4 @@
+
 import screens.MainMenu;
 import screens.Novel;
 
@@ -16,7 +17,7 @@ public class Main {
 
         Script script;
 
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("SwingVN");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.setResizable(true);

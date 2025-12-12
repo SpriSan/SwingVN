@@ -22,7 +22,7 @@ public class Engine {
         return INSTANCE;
     }
 
-    private List<Image> images = new ArrayList<>();
+    public List<Image> images = new ArrayList<>();
     public Novel novel;
 
     public void registerImage(Image img) {
@@ -46,6 +46,7 @@ public class Engine {
 
     public void play(ScriptManager script) {
         script.run();
+        novel.refreshImages();
     }
 
 

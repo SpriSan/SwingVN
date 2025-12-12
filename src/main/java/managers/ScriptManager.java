@@ -1,10 +1,11 @@
 package managers;
 
-import core.Engine;
 import screens.components.Image;
 
 import java.awt.*;
 import java.util.Objects;
+
+import core.Engine;
 
 public abstract class ScriptManager {
 

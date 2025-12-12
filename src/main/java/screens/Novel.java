@@ -3,10 +3,12 @@ package screens;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.TextComponent;
 
 import javax.swing.JPanel;
 
+import core.Engine;
 import managers.ResourceRegister;
 import managers.ScriptManager.Chara;
 import screens.components.Text;
@@ -17,10 +19,31 @@ public class Novel extends JPanel {
     TextBox textBox;
 
     public Novel() {
+        
+        setLayout(null);
 
-        textBox =  new TextBox(100, 100, 100);
+        textBox = new TextBox(100, 100, 100);
+        textBox.setBounds(50, 50, 500, 300); 
         add(textBox);
+        
 
+    }
+
+    public void refreshImages() {
+        
+        for (screens.components.Image img : Engine.getInstance().images) {
+            remove(img);
+        }
+        
+        for (screens.components.Image img : Engine.getInstance().images) {
+            img.setBounds(img.x, img.y, img.getPreferredSize().width, img.getPreferredSize().height);
+            add(img);
+        }
+        
+        setComponentZOrder(textBox, 0);
+        
+        revalidate();
+        repaint();
     }
     
     @Override
@@ -32,9 +55,7 @@ public class Novel extends JPanel {
     }
 
     public void speak(String text, Chara charName){
-        
         textBox.updateLine(text, charName);
         repaint();
     }
-
 }
