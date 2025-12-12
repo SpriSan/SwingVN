@@ -1,6 +1,7 @@
 package core;
 
 import managers.ScriptManager;
+import managers.ScriptManager.Chara;
 import screens.Novel;
 import screens.components.Image;
 
@@ -28,8 +29,8 @@ public class Engine {
         images.add(img);
     }
 
-    public void displayDialogue(ScriptManager.Chara character, String text) {
-        novel.speak(text);
+    public void displayDialogue(Chara character, String text) {
+        novel.speak(text, character);
     }
 
     public void showImage(Image img) {

@@ -8,13 +8,18 @@ import java.awt.TextComponent;
 import javax.swing.JPanel;
 
 import managers.ResourceRegister;
+import managers.ScriptManager.Chara;
 import screens.components.Text;
+import screens.components.TextBox;
 
 public class Novel extends JPanel {
 
-    Text actualDialogue;
+    TextBox textBox;
 
     public Novel() {
+
+        textBox =  new TextBox(100, 100, 100);
+        add(textBox);
 
     }
     
@@ -26,9 +31,9 @@ public class Novel extends JPanel {
         g.drawImage(ResourceRegister.getImage("textbox"), 50, 50, this);
     }
 
-    public void speak(String text){
-        actualDialogue = new Text(text, 20, 20, 20);
-        add(actualDialogue);
+    public void speak(String text, Chara charName){
+        
+        textBox.updateLine(text, charName);
         repaint();
     }
 
