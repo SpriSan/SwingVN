@@ -1,13 +1,21 @@
 package managers;
 
+import screens.Novel;
 import screens.components.Image;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import core.Engine;
 
+import javax.swing.text.Position;
+
 public abstract class ScriptManager {
+
+    public int dialogueIndex = 0;
+
+    public ArrayList<CommandManager> commands = new ArrayList<>();
 
     public static class Chara {
 
@@ -31,18 +39,38 @@ public abstract class ScriptManager {
         Image img = new Image(name);
         Engine.getInstance().registerImage(img, false); // false = foreground
         return img;
+
     }
 
     protected void speak(Chara chr, String text) {
-        Engine.getInstance().displayDialogue(chr, text);
+        CommandManager cmd = () -> Engine.getInstance().displayDialogue(chr, text);
+        commands.add(cmd);
     }
 
     protected void hide(Image img) {
-        Engine.getInstance().hideImage(img);
+        CommandManager cmd = () -> Engine.getInstance().hideImage(img);
+        commands.add(cmd);
     }
 
     protected void show(Image img) {
-        Engine.getInstance().showImage(img);
+        CommandManager cmd = () -> Engine.getInstance().showImage(img);
+        commands.add(cmd);
+    }
+
+    protected void updateScale(Image img, double scale) {
+        CommandManager cmd = () -> img.setScale(scale);
+        commands.add(cmd);
+    }
+
+    protected void updatePosition(Image img, int x, int y) {
+        CommandManager cmd = () -> img.setPosition(x, y);
+        commands.add(cmd);
+    }
+
+    protected void instantPass() {
+        CommandManager cmd = this::next;
+        Engine.getInstance().novel.refreshImages(); Engine.getInstance().novel.repaint();
+        commands.add(cmd);
     }
 
     protected Chara character(String name, Color color) {
@@ -51,6 +79,16 @@ public abstract class ScriptManager {
         return c;
     }
 
+    public void next() {
+        if (dialogueIndex < commands.size()) {
+            commands.get(dialogueIndex++).execute();
+            System.out.println("Evenement suivant");
+        }
+    }
+
+    public boolean hasNext() {
+        return dialogueIndex < commands.size();
+    }
 
     public abstract void run();
 

@@ -28,6 +28,7 @@ public class TextBox extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     }
 
@@ -45,6 +46,7 @@ public class TextBox extends JPanel {
         textArea.setBackground(new Color(0, 0, 0, 0)); // Transparent
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
+        textArea.setHighlighter(null);
         textArea.setEditable(false);
         textArea.setFocusable(false);
         add(textArea);

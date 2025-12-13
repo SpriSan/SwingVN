@@ -6,6 +6,9 @@ import screens.Novel;
 import screens.components.Image;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +19,7 @@ public class Engine {
     public static final Engine INSTANCE = new Engine();
 
     private final Map<String, Color> characters = new HashMap<>();
+    private ScriptManager currentScript;
 
 
     public static Engine getInstance() {
@@ -24,6 +28,7 @@ public class Engine {
 
     public List<Image> images = new ArrayList<>();
     public Novel novel;
+
 
     public void registerImage(Image img, boolean isBackground) {
         if (isBackground) {
@@ -38,10 +43,13 @@ public class Engine {
     }
 
     public void showImage(Image img) {
-
+        img.visible = true;
+        img.repaint();
     }
 
     public void hideImage(Image img) {
+        img.visible = false;
+        img.repaint();
     }
 
     public void registerCharacter(String name, Color color) {
@@ -49,9 +57,30 @@ public class Engine {
     }
 
     public void play(ScriptManager script) {
+        this.currentScript = script;
         script.run();
-        novel.refreshImages();
+
+        if (currentScript.hasNext()) {
+            currentScript.next();
+            novel.refreshImages();
+            novel.repaint();
+        }
+
+        novel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (currentScript.hasNext()) {
+                        currentScript.next();
+                        novel.forceChangeTextboxState();
+                        novel.refreshImages();
+                        novel.repaint();
+                    }
+                }
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    novel.changeTextboxState();
+                }
+            }
+        });
     }
-
-
 }

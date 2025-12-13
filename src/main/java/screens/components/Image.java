@@ -14,6 +14,8 @@ public class Image extends JPanel {
     private int baseWidth;
     private int baseHeight;
 
+    public boolean visible = false;
+
     int w, h;
 
     public Image(String name) {
@@ -51,7 +53,6 @@ public class Image extends JPanel {
         h = (int) (baseHeight * scale);
         updateBounds();
     }
-
     private void updateBounds() {
 
         setBounds(x, y, w, h);
@@ -60,6 +61,14 @@ public class Image extends JPanel {
 
         revalidate();
         repaint();
+    }
+
+    public int getActualY() {
+        return y;
+    }
+
+    public int getActualX() {
+        return x;
     }
 
     public void setBackground() {
@@ -83,7 +92,14 @@ public class Image extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         java.awt.Image img = ResourceRegister.getImage(name);
-        if (img != null) {
+        if (img != null && visible) {
+
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+                    RenderingHints.VALUE_RENDER_QUALITY);
+
+
             g2d.translate(w / 2, h / 2);
 
             g2d.drawImage(img, -w / 2, -h / 2, w, h, this);
