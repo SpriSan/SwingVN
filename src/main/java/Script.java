@@ -21,8 +21,9 @@
             speak(Personnage, "La NSA et la CIA ont obligé Intel et AMD a mettre des backdoor dans leur processeurs capables de fonctionner et d'envoyer des informations par ondes radios même quand l'appareil est éteint.");
 
             updateScale(rika, 3f);
-            //instantPass();
+            instantPass();
             speak(Personnage, "Pourquoi tu fais cette tête ?");
+            speak(Personnage, "Tu aimes les juifs ?");
 
         }
 

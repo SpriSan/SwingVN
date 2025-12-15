@@ -5,10 +5,12 @@ import screens.components.Image;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import core.Engine;
 
+import javax.swing.*;
 import javax.swing.text.Position;
 
 public abstract class ScriptManager {
@@ -68,8 +70,14 @@ public abstract class ScriptManager {
     }
 
     protected void instantPass() {
+        this.next();
+        System.out.println("Passage instantané");
+
+        SwingUtilities.invokeLater(() -> {
+            Engine.getInstance().novel.refreshImages();
+        });
+
         CommandManager cmd = this::next;
-        Engine.getInstance().novel.refreshImages(); Engine.getInstance().novel.repaint();
         commands.add(cmd);
     }
 

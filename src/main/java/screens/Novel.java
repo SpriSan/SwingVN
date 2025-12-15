@@ -54,8 +54,6 @@ public class Novel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        g.drawImage(ResourceRegister.getImage("textbox"), 50, 50, this);
     }
 
     public void speak(String text, Chara charName){
