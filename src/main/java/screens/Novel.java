@@ -1,16 +1,11 @@
 package screens;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.JPanel;
 
 import core.Engine;
-import managers.ResourceRegister;
 import managers.ScriptManager;
 import managers.ScriptManager.Chara;
-import screens.components.Text;
 import screens.components.TextBox;
 
 public class Novel extends JPanel {
@@ -19,24 +14,58 @@ public class Novel extends JPanel {
     ScriptManager scriptManager;
 
     public Novel() {
-
         setLayout(null);
 
-        textBox = new TextBox(100, 100, 100);
-        textBox.setBounds(350, 700, 1200, 300);
+        textBox = new TextBox(100, 100, 70);
         add(textBox);
         setBackground(Color.BLACK);
 
-
+        // Écouter les changements de taille
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                repositionComponents();
+            }
+        });
     }
 
+    private void repositionComponents() {
+        int width = getWidth();
+        int height = getHeight();
+
+        if (width <= 0 || height <= 0) return;
+
+        // TextBox : centré horizontalement, en bas de l'écran
+        int textBoxWidth = Math.min(1200, (int)(width * 0.8));  // Max 1200px ou 80% de la largeur
+        int textBoxHeight = Math.min(300, (int)(height * 0.25)); // Max 300px ou 25% de la hauteur
+        int textBoxX = (width - textBoxWidth) / 2;
+        int textBoxY = height - textBoxHeight - 20; // 20px de marge en bas
+
+        textBox.setBounds(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+
+        // Mettre à jour la taille du parent pour toutes les images
+        Dimension parentSize = new Dimension(width, height);
+        for (screens.components.Image img : Engine.getInstance().images) {
+            img.updateParentSize(parentSize);
+        }
+
+        revalidate();
+        repaint();
+    }
 
     public void refreshImages() {
         for (screens.components.Image img : Engine.getInstance().images) {
             remove(img);
         }
 
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+        Dimension parentSize = new Dimension(panelWidth, panelHeight);
+
         for (screens.components.Image img : Engine.getInstance().images) {
+            // Informer l'image de la taille du parent
+            img.updateParentSize(parentSize);
+
+            // Ajouter l'image
             img.setBounds(img.x, img.y, img.getPreferredSize().width, img.getPreferredSize().height);
             add(img);
             img.repaint();
@@ -62,13 +91,8 @@ public class Novel extends JPanel {
     }
 
     public void changeTextboxState(){
-        if (textBox.isVisible()) {
-            textBox.setVisible(false);
-            repaint();
-        }
-        else {
-            textBox.setVisible(true);
-        }
+        textBox.setVisible(!textBox.isVisible());
+        repaint();
     }
 
     public void forceChangeTextboxState(){
@@ -76,5 +100,4 @@ public class Novel extends JPanel {
             textBox.setVisible(true);
         }
     }
-
 }

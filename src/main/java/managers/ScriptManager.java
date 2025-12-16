@@ -59,6 +59,16 @@ public abstract class ScriptManager {
         commands.add(cmd);
     }
 
+    protected void fadeShow(Image img, int milliseconds) {
+        CommandManager cmd = () -> Engine.getInstance().fadeShowImage(img, milliseconds);
+        commands.add(cmd);
+    }
+
+    protected void fadeHide(Image img, int milliseconds) {
+        CommandManager cmd = () -> Engine.getInstance().fadeHideImage(img, milliseconds);
+        commands.add(cmd);
+    }
+
     protected void updateScale(Image img, double scale) {
         CommandManager cmd = () -> img.setScale(scale);
         commands.add(cmd);

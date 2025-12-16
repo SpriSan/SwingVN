@@ -47,6 +47,16 @@ public class Engine {
         img.repaint();
     }
 
+    public void fadeShowImage(Image img, int milliseconds) {
+        img.fadeShow(milliseconds);
+        img.repaint();
+    }
+
+    public void fadeHideImage(Image img, int milliseconds) {
+        img.fadeHide(milliseconds);
+        img.repaint();
+    }
+
     public void hideImage(Image img) {
         img.visible = false;
         img.repaint();
