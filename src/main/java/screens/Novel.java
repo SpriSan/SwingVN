@@ -1,6 +1,8 @@
 package screens;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
 
 import core.Engine;
@@ -14,42 +16,35 @@ public class Novel extends JPanel {
     ScriptManager scriptManager;
 
     public Novel() {
+
         setLayout(null);
 
-        textBox = new TextBox(100, 100, 70);
+        textBox = new TextBox(1000, 100, 70, true, Color.WHITE);
         add(textBox);
         setBackground(Color.BLACK);
 
-        // Écouter les changements de taille
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                repositionComponents();
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int width = getWidth();
+                int height = getHeight();
+
+                if (!textBox.isTop) {
+                    int textBoxWidth = (int) (width * 0.8);
+                    int textBoxHeight = (int) (height * 0.25);
+                    int textBoxX = ((width - textBoxWidth) / 2) - 10;
+                    int textBoxY = height - textBoxHeight - 20;
+                    textBox.setBounds(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                } else {
+                    int textBoxWidth = (int) (width * 0.8);
+                    int textBoxHeight = (int) (height * 0.25);
+                    int textBoxX = ((width - textBoxWidth) / 2) - 10;
+                    int textBoxY = 0;
+                    textBox.setOpaque(false);
+                    textBox.setBounds(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                }
             }
         });
-    }
-
-    private void repositionComponents() {
-        int width = getWidth();
-        int height = getHeight();
-
-        if (width <= 0 || height <= 0) return;
-
-        // TextBox : centré horizontalement, en bas de l'écran
-        int textBoxWidth = Math.min(1200, (int)(width * 0.8));  // Max 1200px ou 80% de la largeur
-        int textBoxHeight = Math.min(300, (int)(height * 0.25)); // Max 300px ou 25% de la hauteur
-        int textBoxX = (width - textBoxWidth) / 2;
-        int textBoxY = height - textBoxHeight - 20; // 20px de marge en bas
-
-        textBox.setBounds(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
-
-        // Mettre à jour la taille du parent pour toutes les images
-        Dimension parentSize = new Dimension(width, height);
-        for (screens.components.Image img : Engine.getInstance().images) {
-            img.updateParentSize(parentSize);
-        }
-
-        revalidate();
-        repaint();
     }
 
     public void refreshImages() {

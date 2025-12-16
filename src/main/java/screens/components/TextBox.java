@@ -13,22 +13,19 @@ public class TextBox extends JPanel {
 
     public int size;
     public int x , y;
+    public boolean isTop;
+    public Color color;
 
-    public TextBox(int size, int x, int y) {
+    public TextBox(int size, int x, int y, boolean isTop,  Color color) {
         this.size = size;
         this.x = x;
         this.y = y;
+        this.isTop = isTop;
+        this.color = color;
         setLayout(null);
 
         JButton skip = new JButton("Skip");
         skip.setBounds(x - size / 2, y - size / 2, size, size);
-        add(skip);
-    }
-
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(size * 5, size * 2);
     }
 
     @Override
@@ -42,14 +39,17 @@ public class TextBox extends JPanel {
     public void updateLine(String text, Chara charName) {
         removeAll();
 
-        Text character = new Text(charName.name, 30, charName.color);
-        character.setBounds(x, y - 30, 500, 50);
+        String name = (charName == null) ? "" : charName.name;
+        Color charColor = (charName == null) ? color : charName.color;
+
+        Text character = new Text(name, 30, charColor);
+        character.setBounds(x-70, y - 50, 500, 50);
         add(character);
 
         JTextArea textArea = new JTextArea("");
-        textArea.setBounds(x, y, 1000, 200);
-        textArea.setFont(new Font("Arial", Font.PLAIN, 30));
-        textArea.setForeground(Color.black);
+        textArea.setBounds(x-70, y, size-50, 200);
+        textArea.setFont(new Font("Arial", Font.PLAIN, 25));
+        textArea.setForeground(color);
         textArea.setBackground(new Color(0, 0, 0, 0));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -62,8 +62,6 @@ public class TextBox extends JPanel {
         revalidate();
         repaint();
 
-        // Démarrer le timer APRÈS avoir mis à jour l'interface
-        int letterDelay = 10; // Augmenté pour plus de stabilité
         StringBuilder gameText = new StringBuilder("");
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 

@@ -1,13 +1,16 @@
 package core;
 
+import managers.ResourceRegister;
 import managers.ScriptManager;
 import managers.ScriptManager.Chara;
 import screens.Novel;
 import screens.components.Image;
+import screens.components.PlaySound;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +63,11 @@ public class Engine {
     public void hideImage(Image img) {
         img.visible = false;
         img.repaint();
+    }
+
+    public void playAudio(String name) {
+        InputStream audio = ResourceRegister.getAudio(name);
+        PlaySound.PlaySound(audio);
     }
 
     public void registerCharacter(String name, Color color) {

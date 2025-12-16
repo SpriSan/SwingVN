@@ -22,10 +22,9 @@ public class Image extends JPanel {
 
     int w, h;
 
-    // Nouvelles propriétés pour le positionnement adaptatif
     private boolean useRelativePositioning = true;
-    private double relativeX = 0.5; // Position X en pourcentage (0.0 à 1.0)
-    private double relativeY = 0.5; // Position Y en pourcentage (0.0 à 1.0)
+    private double relativeX = 0.5;
+    private double relativeY = 0.5;
     private Dimension parentSize = null;
 
     public Image(String name) {
@@ -56,17 +55,6 @@ public class Image extends JPanel {
         updateBounds();
     }
 
-    public void setRelativePosition(double relX, double relY) {
-        this.relativeX = Math.max(0.0, Math.min(1.0, relX));
-        this.relativeY = Math.max(0.0, Math.min(1.0, relY));
-        this.useRelativePositioning = true;
-        updatePositionFromRelative();
-    }
-
-    public void center() {
-        setRelativePosition(0.5, 0.5);
-    }
-
     public void updateParentSize(Dimension newSize) {
         this.parentSize = newSize;
         if (useRelativePositioning) {
@@ -85,27 +73,21 @@ public class Image extends JPanel {
 
     public void setScale(double scale) {
         this.scale = scale;
+
+        int oldCenterX = x + w / 2;
+        int oldCenterY = y + h / 2;
+
         w = (int) (baseWidth * scale);
         h = (int) (baseHeight * scale);
 
-        // Recalculer la position si en mode relatif
         if (useRelativePositioning) {
             updatePositionFromRelative();
         } else {
+
+            this.x = oldCenterX - w / 2;
+            this.y = oldCenterY - h / 2;
             updateBounds();
         }
-    }
-
-    public void scaleToFit(int maxWidth, int maxHeight) {
-        double scaleX = (double)maxWidth / baseWidth;
-        double scaleY = (double)maxHeight / baseHeight;
-        setScale(Math.min(scaleX, scaleY));
-    }
-
-    public void scaleToCover(int minWidth, int minHeight) {
-        double scaleX = (double)minWidth / baseWidth;
-        double scaleY = (double)minHeight / baseHeight;
-        setScale(Math.max(scaleX, scaleY));
     }
 
     private void updateBounds() {
@@ -115,22 +97,6 @@ public class Image extends JPanel {
 
         revalidate();
         repaint();
-    }
-
-    public int getActualY() {
-        return y;
-    }
-
-    public int getActualX() {
-        return x;
-    }
-
-    public void setBackground() {
-        Container parent = this.getParent();
-        if (parent != null) {
-            parent.setComponentZOrder(this, parent.getComponentCount() - 1);
-            parent.repaint();
-        }
     }
 
     public void fadeShow(int milliseconds) {
@@ -173,14 +139,6 @@ public class Image extends JPanel {
             }
         });
         timer.start();
-    }
-
-    public void setForeground() {
-        Container parent = this.getParent();
-        if (parent != null) {
-            parent.setComponentZOrder(this, 0);
-            parent.repaint();
-        }
     }
 
     @Override

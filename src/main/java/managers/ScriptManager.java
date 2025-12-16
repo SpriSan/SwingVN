@@ -4,6 +4,8 @@ import screens.Novel;
 import screens.components.Image;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +44,14 @@ public abstract class ScriptManager {
         Engine.getInstance().registerImage(img, false); // false = foreground
         return img;
 
+    }
+
+    protected void playSound(String name) {
+        CommandManager cmd = () -> {
+            Engine.getInstance().playAudio(name);
+            next();
+        };
+        commands.add(cmd);
     }
 
     protected void speak(Chara chr, String text) {
@@ -97,8 +107,8 @@ public abstract class ScriptManager {
         return c;
     }
 
-    protected void begin() {
-        CommandManager cmd = this::begin;
+    protected void noAction() {
+        CommandManager cmd = this::noAction;
         commands.add(cmd);
     }
 

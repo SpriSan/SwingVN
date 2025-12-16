@@ -3,6 +3,8 @@ package managers;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,8 @@ import java.util.Map;
 public class ResourceRegister {
 
     private static final Map<String, BufferedImage> images = new HashMap<>();
+    private static final Map<String, String> audioPaths = new HashMap<>();
+
 
     private ResourceRegister() {}
 
@@ -23,6 +27,15 @@ public class ResourceRegister {
             loadImage(name);
         }
         return images.get(name);
+    }
+
+    public static InputStream getAudio(String name) {
+        String path = audioPaths.get(name);
+        if (path == null) {
+            path = "/sounds/" + name + ".wav";
+            audioPaths.put(name, path);
+        }
+        return ResourceRegister.class.getResourceAsStream(path);
     }
 
     private static void loadImage(String name) {
@@ -34,6 +47,11 @@ public class ResourceRegister {
             System.err.println("Impossible de charger l'image : " + name);
             e.printStackTrace();
         }
+    }
+
+    private static void loadSound(String name) {
+        String path = "/sounds/" + name + ".wav";
+        audioPaths.put(name, path);
     }
 }
 
