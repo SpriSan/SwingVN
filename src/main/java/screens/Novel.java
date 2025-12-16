@@ -61,11 +61,11 @@ public class Novel extends JPanel {
         int panelHeight = getHeight();
         Dimension parentSize = new Dimension(panelWidth, panelHeight);
 
-        for (screens.components.Image img : Engine.getInstance().images) {
-            // Informer l'image de la taille du parent
+        for (int i = Engine.getInstance().images.size() - 1; i >= 0; i--) {
+            screens.components.Image img = Engine.getInstance().images.get(i);
+
             img.updateParentSize(parentSize);
 
-            // Ajouter l'image
             img.setBounds(img.x, img.y, img.getPreferredSize().width, img.getPreferredSize().height);
             add(img);
             img.repaint();

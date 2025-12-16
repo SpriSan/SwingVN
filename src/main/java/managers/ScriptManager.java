@@ -97,6 +97,11 @@ public abstract class ScriptManager {
         return c;
     }
 
+    protected void begin() {
+        CommandManager cmd = this::begin;
+        commands.add(cmd);
+    }
+
     public void next() {
         if (dialogueIndex < commands.size()) {
             commands.get(dialogueIndex++).execute();
