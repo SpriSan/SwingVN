@@ -25,6 +25,7 @@
             speak(perso2, "Yaaaa mein arbeit");
 
             instantPass();
+            fadeShow(rika, 400);
             speak(Personnage, "Pourquoi tu fais cette tête ?");
             speak(Personnage, "Caca");
 

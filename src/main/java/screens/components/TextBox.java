@@ -19,6 +19,10 @@ public class TextBox extends JPanel {
         this.x = x;
         this.y = y;
         setLayout(null);
+
+        JButton skip = new JButton("Skip");
+        skip.setBounds(x - size / 2, y - size / 2, size, size);
+        add(skip);
     }
 
 
