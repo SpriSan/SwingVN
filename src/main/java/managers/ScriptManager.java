@@ -101,10 +101,13 @@ public abstract class ScriptManager {
     }
 
     protected void instantPass() {
-        this.next();
-        System.out.println("Passage instantané");
-
-        CommandManager cmd = this::next;
+        CommandManager cmd = () -> {
+            if (dialogueIndex < commands.size()) {
+                commands.get(dialogueIndex++).execute();
+                commands.get(dialogueIndex++).execute();
+                System.out.println("Passage instantané");
+            }
+        };
         commands.add(cmd);
     }
 
@@ -126,8 +129,8 @@ public abstract class ScriptManager {
         }
     }
 
-    //fonction de merde ne faites pas ça
-    public void initButtons(int autoPlayerDelay){
+    //fonction de merde ne faites pas ça mais au moins IT WORKS
+    public void initButtons(){
         ScheduledExecutorService autoPlayer = Executors.newSingleThreadScheduledExecutor();
 
         autoPlayer.scheduleAtFixedRate(() -> {
@@ -137,7 +140,7 @@ public abstract class ScriptManager {
                     commands.get(dialogueIndex++).execute();
                     System.out.println("Evenement suivant en auto");
                     try {
-                        Thread.sleep(autoPlayerDelay * 10);
+                        Thread.sleep(Engine.getInstance().autoPlayerDelay * 10L);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

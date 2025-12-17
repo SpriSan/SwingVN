@@ -2,6 +2,7 @@ package screens.components;
 
 import javax.swing.*;
 
+import core.Engine;
 import managers.ScriptManager.Chara;
 
 import java.awt.*;
@@ -53,7 +54,7 @@ public class TextBox extends JPanel {
         else {
             textArea.setBounds(x - 70, y, size - 50, 200);
         }
-        textArea.setFont(new Font("Arial", Font.PLAIN, 25));
+        textArea.setFont(new Font("Arial", (Engine.getInstance().isBold) ? Font.BOLD : Font.PLAIN, 25));
         textArea.setForeground(color);
         textArea.setBackground(new Color(0, 0, 0, 0));
         textArea.setLineWrap(true);
@@ -80,7 +81,7 @@ public class TextBox extends JPanel {
             } else {
                 executor.shutdown();
             }
-        }, 0, 10, TimeUnit.MILLISECONDS);
+        }, 0, Engine.getInstance().textWritingSpeed, TimeUnit.MILLISECONDS);
     }
 
 }

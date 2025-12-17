@@ -19,6 +19,34 @@ import java.util.Map;
 
 public class Engine {
 
+    //TODO: créer un menu paramètres
+
+       /* =========================
+              OPTIONS DU VN
+        ========================= */
+
+    public int autoPlayerDelay = 400; //multiplié par 10 plus tard pour éviter de se prendre la tête avec les millisecondes
+    public int textWritingSpeed = 20; //en millisecondes
+
+    //mettre la texbox en haut façon higurashi
+    public boolean topTextBox = false;
+
+    /**
+     * si la textbox est mise en haut façon Higurashi, elle n'a pas d'arrière plan
+     * ces valeurs permettent de rendre le texte plus lisible
+     */
+
+    public boolean darkBackground = true;
+    public int darkbackgroundOpacity = 120;
+
+
+    public Color textColor = Color.BLACK;    // pour une couleur 100% personalisée en rgb :  public Color textColor = new Color(x, x, x)
+    public boolean isBold = true; //mettre les textes de la texbox en gras ou non
+
+
+
+
+
     public static final Engine INSTANCE = new Engine();
 
     private final Map<String, Color> characters = new HashMap<>();
@@ -27,6 +55,8 @@ public class Engine {
     public boolean isAutoOn = false;
     public boolean isSkipOn = false;
     public boolean isLogsOn = false;
+
+    public boolean canInteract = true;
 
 
     public static Engine getInstance() {
@@ -39,9 +69,9 @@ public class Engine {
 
     public void registerImage(Image img, boolean isBackground) {
         if (isBackground) {
-            images.add(0, img); // Ajouter au début de la liste (arrière-plan)
+            images.add(0, img);
         } else {
-            images.add(img); // Ajouter à la fin (premier plan)
+            images.add(img);
         }
     }
 
@@ -77,6 +107,7 @@ public class Engine {
 
     public void logs() {
         novel.changeLogsState();
+        canInteract = !canInteract;
     }
 
 
@@ -98,7 +129,7 @@ public class Engine {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    if (currentScript.hasNext()) {
+                    if (currentScript.hasNext() && canInteract) {
                         currentScript.next();
                         novel.forceChangeTextboxState();
                         novel.refreshImages();

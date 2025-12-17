@@ -19,15 +19,32 @@ public class Novel extends JPanel {
     ScriptManager scriptManager;
     public LogsMenu logs;
 
+    private JPanel darkbg;
+
     public Novel() {
 
         setLayout(null);
 
-        textBox = new TextBox(1000, 100, 70, false, Color.WHITE);
+        darkbg = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (Engine.getInstance().darkBackground) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setColor(new Color(0, 0, 0, Engine.getInstance().darkbackgroundOpacity));
+                    g2d.fillRect(0, 0, getWidth(), getHeight());
+                }
+            }
+        };
+
+        darkbg.setOpaque(false);
+
+        textBox = new TextBox(1000, 100, 70, Engine.getInstance().topTextBox, Engine.getInstance().textColor);
         buttonsMenu = new ButtonsMenu(0, 0, 100);
 
         add(buttonsMenu);
         add(textBox);
+        add(darkbg);
         setBackground(Color.BLACK);
 
         logs = new LogsMenu(0, 0, getWidth(), getHeight());
@@ -57,6 +74,8 @@ public class Novel extends JPanel {
                 int logsWidth = (int) (width * 0.97);
                 int logsHeight = (int) (height * 0.935);
                 logs.setBounds(10, 10, logsWidth, logsHeight);
+                darkbg.setBounds(0, 0, width, height);
+
 
                 //temporaire car pas fiable
                 buttonsMenu.setBounds(width - buttonsMenu.getWidth() - 15, height - buttonsMenu.getHeight() -40, buttonsMenu.getWidth(), buttonsMenu.getHeight());
@@ -92,9 +111,6 @@ public class Novel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     public void speak(String text, Chara charName){
