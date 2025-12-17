@@ -56,13 +56,16 @@ public class ButtonsMenu extends JPanel {
         });
         buttons.add(skip);
 
-        // bouton back
-        JButton back = new JButton("Back");
-        back.setBounds(0, 80, 100, 40);
-        back.setContentAreaFilled(false);
-        back.setBorderPainted(true);
-        back.setOpaque(false);
-        buttons.add(back);
+        // bouton logs
+        JButton logs = new JButton("Logs");
+        logs.setBounds(0, 40, 100, 40);
+        logs.setContentAreaFilled(false);
+        logs.setBorderPainted(true);
+        logs.setOpaque(false);
+        logs.addActionListener(e -> {
+            Engine.getInstance().logs();
+        });
+        buttons.add(logs);
 
         // bouton back
         JButton menu = new JButton("Menu");

@@ -9,6 +9,7 @@ import core.Engine;
 import managers.ScriptManager;
 import managers.ScriptManager.Chara;
 import screens.components.ButtonsMenu;
+import screens.components.LogsMenu;
 import screens.components.TextBox;
 
 public class Novel extends JPanel {
@@ -16,17 +17,21 @@ public class Novel extends JPanel {
     TextBox textBox;
     ButtonsMenu buttonsMenu;
     ScriptManager scriptManager;
+    public LogsMenu logs;
 
     public Novel() {
 
         setLayout(null);
 
-        textBox = new TextBox(1000, 100, 70, true, Color.WHITE);
+        textBox = new TextBox(1000, 100, 70, false, Color.WHITE);
         buttonsMenu = new ButtonsMenu(0, 0, 100);
 
         add(buttonsMenu);
         add(textBox);
         setBackground(Color.BLACK);
+
+        logs = new LogsMenu(0, 0, getWidth(), getHeight());
+        add(logs);
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -48,6 +53,10 @@ public class Novel extends JPanel {
                     textBox.setOpaque(false);
                     textBox.setBounds(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
                 }
+
+                int logsWidth = (int) (width * 0.97);
+                int logsHeight = (int) (height * 0.935);
+                logs.setBounds(10, 10, logsWidth, logsHeight);
 
                 //temporaire car pas fiable
                 buttonsMenu.setBounds(width - buttonsMenu.getWidth() - 15, height - buttonsMenu.getHeight() -40, buttonsMenu.getWidth(), buttonsMenu.getHeight());
@@ -95,6 +104,21 @@ public class Novel extends JPanel {
 
     public void changeTextboxState(){
         textBox.setVisible(!textBox.isVisible());
+        repaint();
+    }
+
+    public void changeLogsState() {
+        logs.setVisible(!logs.isVisible());
+
+        if (logs.isVisible()) {
+            logs.render(Engine.getInstance().logs);
+            setComponentZOrder(logs, 0);
+        }
+
+        buttonsMenu.setVisible(!buttonsMenu.isVisible());
+        textBox.setVisible(false);
+
+        revalidate();
         repaint();
     }
 

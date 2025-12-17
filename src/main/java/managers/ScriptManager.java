@@ -57,6 +57,14 @@ public abstract class ScriptManager {
         commands.add(cmd);
     }
 
+    protected void stopSound(String name) {
+        CommandManager cmd = () -> {
+    //        Engine.getInstance().stopAudio(name);
+            next();
+        };
+        commands.add(cmd);
+    }
+
     protected void speak(Chara chr, String text) {
         CommandManager cmd = () -> Engine.getInstance().displayDialogue(chr, text);
         commands.add(cmd);
@@ -95,10 +103,6 @@ public abstract class ScriptManager {
     protected void instantPass() {
         this.next();
         System.out.println("Passage instantané");
-
-        SwingUtilities.invokeLater(() -> {
-            Engine.getInstance().novel.refreshImages();
-        });
 
         CommandManager cmd = this::next;
         commands.add(cmd);

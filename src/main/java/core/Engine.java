@@ -5,7 +5,7 @@ import managers.ScriptManager;
 import managers.ScriptManager.Chara;
 import screens.Novel;
 import screens.components.Image;
-import screens.components.PlaySound;
+import screens.components.SoundManager;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -22,9 +22,11 @@ public class Engine {
     public static final Engine INSTANCE = new Engine();
 
     private final Map<String, Color> characters = new HashMap<>();
+    public Map<Chara, String> logs = new HashMap<>();
     private ScriptManager currentScript;
     public boolean isAutoOn = false;
     public boolean isSkipOn = false;
+    public boolean isLogsOn = false;
 
 
     public static Engine getInstance() {
@@ -45,6 +47,7 @@ public class Engine {
 
     public void displayDialogue(Chara character, String text) {
         novel.speak(text, character);
+        logs.put(character, text);
     }
 
     public void showImage(Image img) {
@@ -69,8 +72,13 @@ public class Engine {
 
     public void playAudio(String name) {
         InputStream audio = ResourceRegister.getAudio(name);
-        PlaySound.PlaySound(audio);
+        SoundManager.PlaySound(audio);
     }
+
+    public void logs() {
+        novel.changeLogsState();
+    }
+
 
     public void registerCharacter(String name, Color color) {
         characters.put(name, color);
@@ -98,7 +106,7 @@ public class Engine {
                     }
                 }
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    novel.changeTextboxState();
+                    if (!novel.logs.isVisible()) novel.changeTextboxState();
                 }
             }
         });

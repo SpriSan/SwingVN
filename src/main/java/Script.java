@@ -27,7 +27,7 @@
 
             fadeShow(rika, 400);
             speak(Personnage, "Pourquoi tu fais cette tête ?");
-            updateScale(rika, 4f);
+            updateScale(rika, 3f);
             speak(Personnage, "Caca");
 
         }
