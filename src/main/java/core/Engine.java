@@ -23,6 +23,8 @@ public class Engine {
 
     private final Map<String, Color> characters = new HashMap<>();
     private ScriptManager currentScript;
+    public boolean isAutoOn = false;
+    public boolean isSkipOn = false;
 
 
     public static Engine getInstance() {

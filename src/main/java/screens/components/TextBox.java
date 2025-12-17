@@ -43,11 +43,16 @@ public class TextBox extends JPanel {
         Color charColor = (charName == null) ? color : charName.color;
 
         Text character = new Text(name, 30, charColor);
-        character.setBounds(x-70, y - 50, 500, 50);
+        character.setBounds(x - 70, y - 50, 500, 50);
         add(character);
 
         JTextArea textArea = new JTextArea("");
-        textArea.setBounds(x-70, y, size-50, 200);
+        if (name.equals("")) {
+            textArea.setBounds(x - 70, y-50, size - 50, 200);
+        }
+        else {
+            textArea.setBounds(x - 70, y, size - 50, 200);
+        }
         textArea.setFont(new Font("Arial", Font.PLAIN, 25));
         textArea.setForeground(color);
         textArea.setBackground(new Color(0, 0, 0, 0));

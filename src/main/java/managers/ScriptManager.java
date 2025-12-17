@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import core.Engine;
 
@@ -117,6 +120,38 @@ public abstract class ScriptManager {
             commands.get(dialogueIndex++).execute();
             System.out.println("Evenement suivant");
         }
+    }
+
+    //fonction de merde ne faites pas ça
+    public void initButtons(int autoPlayerDelay){
+        ScheduledExecutorService autoPlayer = Executors.newSingleThreadScheduledExecutor();
+
+        autoPlayer.scheduleAtFixedRate(() -> {
+            //autplay
+            while (Engine.getInstance().isAutoOn) {
+                if (dialogueIndex < commands.size()) {
+                    commands.get(dialogueIndex++).execute();
+                    System.out.println("Evenement suivant en auto");
+                    try {
+                        Thread.sleep(autoPlayerDelay * 10);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            //skip
+            while (Engine.getInstance().isSkipOn) {
+                if (dialogueIndex < commands.size()) {
+                    commands.get(dialogueIndex++).execute();
+                    System.out.println("Skip");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }, 0, 10, TimeUnit.MILLISECONDS);;
     }
 
     public boolean hasNext() {

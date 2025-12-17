@@ -8,11 +8,13 @@ import javax.swing.JPanel;
 import core.Engine;
 import managers.ScriptManager;
 import managers.ScriptManager.Chara;
+import screens.components.ButtonsMenu;
 import screens.components.TextBox;
 
 public class Novel extends JPanel {
 
     TextBox textBox;
+    ButtonsMenu buttonsMenu;
     ScriptManager scriptManager;
 
     public Novel() {
@@ -20,6 +22,9 @@ public class Novel extends JPanel {
         setLayout(null);
 
         textBox = new TextBox(1000, 100, 70, true, Color.WHITE);
+        buttonsMenu = new ButtonsMenu(0, 0, 100);
+
+        add(buttonsMenu);
         add(textBox);
         setBackground(Color.BLACK);
 
@@ -43,6 +48,9 @@ public class Novel extends JPanel {
                     textBox.setOpaque(false);
                     textBox.setBounds(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
                 }
+
+                //temporaire car pas fiable
+                buttonsMenu.setBounds(width - buttonsMenu.getWidth() - 15, height - buttonsMenu.getHeight() -40, buttonsMenu.getWidth(), buttonsMenu.getHeight());
             }
         });
     }
