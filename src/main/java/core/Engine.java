@@ -29,7 +29,7 @@ public class Engine {
     public int textWritingSpeed = 20; //en millisecondes
 
     //mettre la texbox en haut façon higurashi
-    public boolean topTextBox = false;
+    public boolean topTextBox = true;
 
     /**
      * si la textbox est mise en haut façon Higurashi, elle n'a pas d'arrière plan
@@ -40,7 +40,7 @@ public class Engine {
     public int darkbackgroundOpacity = 120;
 
 
-    public Color textColor = Color.BLACK;    // pour une couleur 100% personalisée en rgb :  public Color textColor = new Color(x, x, x)
+    public Color textColor = Color.WHITE;    // pour une couleur 100% personalisée en rgb :  public Color textColor = new Color(x, x, x)
     public boolean isBold = true; //mettre les textes de la texbox en gras ou non
 
 
