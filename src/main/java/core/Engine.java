@@ -1,5 +1,6 @@
 package core;
 
+import managers.ChoiceOption;
 import managers.ResourceRegister;
 import managers.ScriptManager;
 import managers.ScriptManager.Chara;
@@ -51,7 +52,7 @@ public class Engine {
 
     private final Map<String, Color> characters = new HashMap<>();
     public Map<Chara, String> logs = new HashMap<>();
-    private ScriptManager currentScript;
+    public ScriptManager currentScript;
     public boolean isAutoOn = false;
     public boolean isSkipOn = false;
     public boolean isLogsOn = false;
@@ -78,6 +79,12 @@ public class Engine {
     public void displayDialogue(Chara character, String text) {
         novel.speak(text, character);
         logs.put(character, text);
+    }
+
+    public void displayChoices(List<ChoiceOption> options, String question, java.util.function.Consumer<Integer> onChoiceSelected) {
+        canInteract = false;
+
+        novel.displayChoices(options, question, onChoiceSelected);
     }
 
     public void showImage(Image img) {

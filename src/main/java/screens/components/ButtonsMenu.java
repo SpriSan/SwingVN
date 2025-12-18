@@ -5,6 +5,8 @@ import managers.ScriptManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class ButtonsMenu extends JPanel {
@@ -30,12 +32,27 @@ public class ButtonsMenu extends JPanel {
 
     public void render() {
 
-        // bouton viande
+        // bouton auto
         JButton auto = new JButton("Auto");
         auto.setBounds(0, 0, 100, 40);
-        auto.setContentAreaFilled(false);
-        auto.setBorderPainted(true);
-        auto.setOpaque(false);
+        auto.setFont(new Font("Arial", Font.BOLD, 16)); // AJOUTÉ
+        auto.setForeground(Color.WHITE);
+        auto.setBackground(new Color(50, 50, 50, 200));
+        auto.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        auto.setFocusPainted(false); // AJOUTÉ
+
+        auto.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                auto.setBackground(new Color(80, 80, 80, 220));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                auto.setBackground(new Color(50, 50, 50, 200));
+            }
+        });
+
         auto.addActionListener(e -> {
             Engine.getInstance().isAutoOn = !Engine.getInstance().isAutoOn;
             isAutoPressed = !isAutoPressed;
@@ -48,9 +65,24 @@ public class ButtonsMenu extends JPanel {
         // bouton skip
         JButton skip = new JButton("Skip");
         skip.setBounds(0, 40, 100, 40);
-        skip.setContentAreaFilled(false);
-        skip.setBorderPainted(true);
-        skip.setOpaque(false);
+        skip.setFont(new Font("Arial", Font.BOLD, 16)); // AJOUTÉ
+        skip.setForeground(Color.WHITE);
+        skip.setBackground(new Color(50, 50, 50, 200));
+        skip.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        skip.setFocusPainted(false); // AJOUTÉ
+
+        skip.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                skip.setBackground(new Color(80, 80, 80, 220));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                skip.setBackground(new Color(50, 50, 50, 200));
+            }
+        });
+
         skip.addActionListener(e -> {
             Engine.getInstance().isSkipOn = !Engine.getInstance().isSkipOn;
         });
@@ -58,21 +90,51 @@ public class ButtonsMenu extends JPanel {
 
         // bouton logs
         JButton logs = new JButton("Logs");
-        logs.setBounds(0, 40, 100, 40);
-        logs.setContentAreaFilled(false);
-        logs.setBorderPainted(true);
-        logs.setOpaque(false);
+        logs.setBounds(0, 80, 100, 40);
+        logs.setFont(new Font("Arial", Font.BOLD, 16)); // AJOUTÉ
+        logs.setForeground(Color.WHITE);
+        logs.setBackground(new Color(50, 50, 50, 200));
+        logs.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        logs.setFocusPainted(false); // AJOUTÉ
+
+        logs.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                logs.setBackground(new Color(80, 80, 80, 220));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                logs.setBackground(new Color(50, 50, 50, 200));
+            }
+        });
+
         logs.addActionListener(e -> {
             Engine.getInstance().logs();
         });
         buttons.add(logs);
 
-        // bouton back
+        // bouton menu
         JButton menu = new JButton("Menu");
         menu.setBounds(0, 120, 100, 40);
-        menu.setContentAreaFilled(false);
-        menu.setBorderPainted(true);
-        menu.setOpaque(false);
+        menu.setFont(new Font("Arial", Font.BOLD, 16)); // AJOUTÉ
+        menu.setForeground(Color.WHITE);
+        menu.setBackground(new Color(50, 50, 50, 200));
+        menu.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        menu.setFocusPainted(false); // AJOUTÉ
+
+        menu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                menu.setBackground(new Color(80, 80, 80, 220));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                menu.setBackground(new Color(50, 50, 50, 200));
+            }
+        });
+
         buttons.add(menu);
 
         for (JButton btn : buttons) {

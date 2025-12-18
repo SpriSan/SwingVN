@@ -6,9 +6,8 @@ import screens.components.Image;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +23,9 @@ public abstract class ScriptManager {
 
     public ArrayList<CommandManager> commands = new ArrayList<>();
 
+    public Map<String, Integer> labels = new HashMap<>();
+    private Stack<Integer> returnStack = new Stack<>();
+
     public static class Chara {
 
         public final String name;
@@ -35,6 +37,34 @@ public abstract class ScriptManager {
         }
 
     }
+
+    protected void label(String name) {
+        labels.put(name, commands.size());
+
+        CommandManager cmd = () -> {
+            System.out.println("Label " + name);
+            next();
+        };
+        commands.add(cmd);
+    }
+
+    protected void jump(String labelName) {
+        CommandManager cmd = () -> {
+            if (!labels.containsKey(labelName)) {
+                System.out.println("Label " + labelName + " non trouvé");
+                return;
+            }
+
+            dialogueIndex = labels.get(labelName);
+            System.out.println("Saut vers " + labelName);
+
+            if (dialogueIndex < commands.size()) {
+                commands.get(dialogueIndex++).execute();
+            }
+        };
+        commands.add(cmd);
+    }
+
 
     protected Image background(String name) {
         Image img = new Image(name);
@@ -98,6 +128,10 @@ public abstract class ScriptManager {
     protected void updatePosition(Image img, int x, int y) {
         CommandManager cmd = () -> img.setPosition(x, y);
         commands.add(cmd);
+    }
+
+    protected ChoiceManager choice(String question) {
+        return new ChoiceManager(this, question);
     }
 
     protected void instantPass() {

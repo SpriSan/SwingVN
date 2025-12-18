@@ -1,25 +1,30 @@
 package screens;
 
+import java.util.List;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
-
 import core.Engine;
+import managers.ChoiceOption;
 import managers.ScriptManager;
 import managers.ScriptManager.Chara;
 import screens.components.ButtonsMenu;
+import screens.components.Choice;
 import screens.components.LogsMenu;
 import screens.components.TextBox;
+
 
 public class Novel extends JPanel {
 
     TextBox textBox;
     ButtonsMenu buttonsMenu;
+    Choice choice;
     ScriptManager scriptManager;
     public LogsMenu logs;
 
     private JPanel darkbg;
+    private Choice currentChoice = null;
 
     public Novel() {
 
@@ -79,8 +84,48 @@ public class Novel extends JPanel {
 
                 //temporaire car pas fiable
                 buttonsMenu.setBounds(width - buttonsMenu.getWidth() - 15, height - buttonsMenu.getHeight() -40, buttonsMenu.getWidth(), buttonsMenu.getHeight());
+                choice.setBounds(width / 4, height / 4, 650, 700);
             }
         });
+    }
+
+    public void displayChoices(List<ChoiceOption> options, String question, java.util.function.Consumer<Integer> onChoiceSelected) {
+        hideChoices();
+
+        currentChoice = new Choice(options, question, (selectedIndex) -> {
+
+            hideChoices();
+
+            Engine.getInstance().canInteract = true;
+
+            onChoiceSelected.accept(selectedIndex);
+
+            refreshImages();
+            repaint();
+        });
+
+
+        int x = (getWidth() - 600) / 2;
+        int y = (getHeight() - currentChoice.height) / 2;
+
+
+        currentChoice.setBounds(x, y, 600, currentChoice.height);
+
+
+        add(currentChoice);
+        setComponentZOrder(currentChoice, 0);
+
+        revalidate();
+        repaint();
+    }
+
+    public void hideChoices() {
+        if (currentChoice != null) {
+            remove(currentChoice);
+            currentChoice = null;
+            revalidate();
+            repaint();
+        }
     }
 
     public void refreshImages() {
