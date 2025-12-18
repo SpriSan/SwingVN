@@ -169,7 +169,7 @@ public abstract class ScriptManager {
 
         autoPlayer.scheduleAtFixedRate(() -> {
             //autplay
-            while (Engine.getInstance().isAutoOn) {
+            while (Engine.getInstance().isAutoOn && Engine.getInstance().canInteract) {
                 if (dialogueIndex < commands.size()) {
                     commands.get(dialogueIndex++).execute();
                     System.out.println("Evenement suivant en auto");
@@ -181,7 +181,7 @@ public abstract class ScriptManager {
                 }
             }
             //skip
-            while (Engine.getInstance().isSkipOn) {
+            while (Engine.getInstance().isSkipOn && Engine.getInstance().canInteract) {
                 if (dialogueIndex < commands.size()) {
                     commands.get(dialogueIndex++).execute();
                     System.out.println("Skip");
